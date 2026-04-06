@@ -43,10 +43,10 @@
         <div class="generator-box">
           <div class="slider-wrapper">
             <div class="char-length-wrapper">
-              <label for="char-slider" id="character-length"
+              <label for="slider-input" id="character-length"
                 >Character Length</label
               >
-              <p class="number-length" id="number-length">0</p>
+              <p class="number-length" id="number-el">0</p>
             </div>
             <input
               type="range"
@@ -55,49 +55,45 @@
               value="0"
               autocomplete="off"
               class="char-slider"
-              id="char-slider"
+              id="slider-input"
               aria-labelledby="character-length"
             />
           </div>
           <div class="inclusion-list-wrapper">
-            <ul>
+            <ul class="inclusion-list">
               <li>
                 <input
                   type="checkbox"
-                  value="inclUppercase"
                   autocomplete="off"
-                  id="incl-uppercase"
-                /><label for="incl-uppercase" class="inclusion"
+                  id="uppercase-check"
+                /><label for="uppercase-check" class="inclusion"
                   >Include Uppercase Letters</label
                 >
               </li>
               <li>
                 <input
                   type="checkbox"
-                  value="inclLowercase"
                   autocomplete="off"
-                  id="incl-lowercase"
-                /><label for="incl-lowercase" class="inclusion"
+                  id="lowercase-check"
+                /><label for="lowercase-check" class="inclusion"
                   >Include Lowercase Letters</label
                 >
               </li>
               <li>
                 <input
                   type="checkbox"
-                  value="inclNumbers"
                   autocomplete="off"
-                  id="incl-numbers"
-                /><label for="incl-numbers" class="inclusion"
+                  id="numbers-check"
+                /><label for="numbers-check" class="inclusion"
                   >Include Numbers</label
                 >
               </li>
               <li>
                 <input
                   type="checkbox"
-                  value="inclSymbols"
                   autocomplete="off"
-                  id="incl-symbols"
-                /><label for="incl-symbols" class="inclusion"
+                  id="symbols-check"
+                /><label for="symbols-check" class="inclusion"
                   >Include Symbols</label
                 >
               </li>
@@ -117,7 +113,7 @@
               </div>
             </div>
           </div>
-          <button type="button" class="generate-btn">
+          <button type="button" id="generate-btn" class="generate-btn">
             <p class="btn-text">GENERATE</p>
             <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -126,6 +122,7 @@
               />
             </svg>
           </button>
+          <p id="error-msg" class="error-msg"></p>
         </div>
       </div>
     </main>

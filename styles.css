@@ -213,8 +213,12 @@ input[type="range"]:active::-webkit-slider-thumb {
 }
 
 input[type="range"]::-moz-range-track {
-  background-color: var(--grey-850);
   height: var(--spacing-100);
+  background: linear-gradient(
+    to right,
+    var(--green-200) var(--progress, 0%),
+    var(--grey-850) var(--progress, 0%)
+  );
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -230,10 +234,10 @@ input[type="range"]:active::-moz-range-thumb {
   border: 2px solid var(--green-200);
 }
 
-input[type="range"]::-moz-range-progress {
+/* input[type="range"]::-moz-range-progress {
   background: var(--green-200);
   height: var(--spacing-100);
-}
+} */
 
 /* END OF RANGE SLIDER STYLING */
 
@@ -371,6 +375,33 @@ ul {
 .generate-btn:hover .btn-text {
   color: var(--green-200);
   fill: var(--green-200);
+}
+
+.error-state {
+  background-color: var(--grey-800);
+  border: 2px solid var(--red-500);
+}
+
+.error-state .btn-text {
+  color: var(--red-500);
+  fill: var(--red-500);
+}
+
+.error-state:hover {
+  background-color: var(--grey-800);
+  border: 2px solid var(--red-500);
+}
+
+.error-state:hover .btn-text {
+  color: var(--red-500);
+  fill: var(--red-500);
+}
+
+.error-msg {
+  margin-top: var(--spacing-100);
+  font-size: 0.7rem;
+  color: var(--red-500);
+  margin-bottom: -8px;
 }
 
 /* ===== TABLET ===== */
