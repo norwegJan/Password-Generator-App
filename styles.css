@@ -147,8 +147,12 @@ body {
 }
 
 .password-output {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: var(--grey-700);
+}
+
+.final-password {
+  color: var(--grey-200);
 }
 
 .copied-icon {
@@ -159,7 +163,7 @@ body {
 }
 
 .copied {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--green-200);
 }
 
@@ -174,6 +178,10 @@ body {
 .number-length {
   font-size: 1.5rem;
   color: var(--green-200);
+}
+
+.number-error {
+  color: var(--red-500);
 }
 
 .password-copy-wrapper,

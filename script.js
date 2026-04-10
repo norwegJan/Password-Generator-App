@@ -1,5 +1,6 @@
 // DECLARE VARIABLES
 
+const passwordOutput = document.querySelector("#password-output");
 const copyBtn = document.querySelector("#copy-btn");
 const copiedMsg = document.querySelector("#copied");
 
@@ -42,9 +43,14 @@ function renderSliderState() {
   const min = sliderInput.min;
   const max = sliderInput.max;
   const progress = ((lengthValue - min) / (max - min)) * 100;
+  const inclusionPools = getInclusionPools();
 
   numberEl.textContent = lengthValue;
   sliderInput.style.setProperty("--progress", `${progress}%`);
+
+  if (lengthValue >= inclusionPools.length) {
+    numberEl.classList.remove("number-error");
+  }
 }
 
 function getInclusionPools() {
@@ -72,15 +78,48 @@ function validateInputRenderError() {
 
   if (inclusionPools.length === 0 || lengthValue < inclusionPools.length) {
     generateBtn.classList.add("error-state");
+    numberEl.classList.add("number-error");
     errorMsg.textContent = "Temporary placeholder error text";
   } else {
     generateBtn.classList.remove("error-state");
+    numberEl.classList.remove("number-error");
     errorMsg.textContent = "";
     generateGreenLight = true;
   }
   return generateGreenLight;
 }
 
-function generatePassword() {}
+function getRandomCharacter(pool) {
+  const randomIndex = Math.floor(Math.random() * pool.length);
+  return pool[randomIndex];
+}
+
+function generatePassword() {
+  const lengthValue = sliderInput.valueAsNumber;
+  const inclusionPools = getInclusionPools();
+  const passwordChars = [];
+  const combinedPool = inclusionPools.join("");
+
+  inclusionPools.forEach((pool) => {
+    passwordChars.push(getRandomCharacter(pool));
+  });
+
+  while (passwordChars.length < lengthValue) {
+    passwordChars.push(getRandomCharacter(combinedPool));
+  }
+
+  const finalPassword = shufflePassword(passwordChars).join("");
+
+  passwordOutput.textContent = finalPassword;
+  passwordOutput.classList.add("final-password");
+}
+
+function shufflePassword(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const ri = Math.floor(Math.random() * (i + 1));
+    [array[i], array[ri]] = [array[ri], array[i]];
+  }
+  return array;
+}
 
 renderSliderState();
