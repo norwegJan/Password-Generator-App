@@ -175,6 +175,19 @@ body {
   fill: white;
 }
 
+.disabled {
+  cursor: default;
+  fill: var(--grey-700);
+}
+
+.disabled:hover {
+  fill: var(--grey-700);
+}
+
+.disabled:hover .copy-svg {
+  fill: var(--grey-700);
+}
+
 .number-length {
   font-size: 1.5rem;
   color: var(--green-200);
@@ -259,6 +272,10 @@ input[type="checkbox"] {
   display: grid;
   place-content: center;
   cursor: pointer;
+}
+
+input[type="checkbox"].checkbox-error {
+  border: 2px solid var(--red-500);
 }
 
 input[type="checkbox"]:hover {
@@ -409,6 +426,7 @@ ul {
   margin-top: var(--spacing-100);
   font-size: 0.7rem;
   color: var(--red-500);
+  word-spacing: -2px;
   margin-bottom: -8px;
 }
 

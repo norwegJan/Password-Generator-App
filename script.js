@@ -1,24 +1,19 @@
 // DECLARE VARIABLES
-
 const passwordOutput = document.querySelector("#password-output");
 const copyBtn = document.querySelector("#copy-btn");
+const copySvg = document.querySelector("#copy-svg");
 const copiedMsg = document.querySelector("#copied");
 
 const sliderInput = document.querySelector("#slider-input");
 const numberEl = document.querySelector("#number-el");
 
-const uppercaseCheck = document.querySelector("#uppercase-check");
-const lowercaseCheck = document.querySelector("#lowercase-check");
-const numbersCheck = document.querySelector("#numbers-check");
-const symbolsCheck = document.querySelector("#symbols-check");
+const checkboxInputs = document.querySelectorAll(".inclusion-box");
+
+const strengthMsg = document.querySelector("#strength-msg");
+const markers = document.querySelectorAll(".marker");
 
 const generateBtn = document.querySelector("#generate-btn");
 const errorMsg = document.querySelector("#error-msg");
-
-const uppercasePool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const lowercasePool = "abcdefghijklmnopqrstuvwxyz";
-const numbersPool = "0123456789";
-const symbolsPool = "$*.-[];:?@+%!{},=()#&/_~";
 
 // ADD EVENT LISTENERS
 
@@ -27,6 +22,15 @@ copyBtn.addEventListener("click", (e) => {
 });
 
 sliderInput.addEventListener("input", renderSliderState);
+
+checkboxInputs.forEach((element) => {
+  element.addEventListener("change", (e) => {
+    numberEl.classList.remove("number-error");
+    checkboxInputs.forEach((el) => {
+      el.classList.remove("checkbox-error");
+    });
+  });
+});
 
 generateBtn.addEventListener("click", (e) => {
   const canGenerate = validateInputRenderError();
@@ -54,7 +58,17 @@ function renderSliderState() {
 }
 
 function getInclusionPools() {
-  let inclusionPools = [];
+  const uppercasePool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const lowercasePool = "abcdefghijklmnopqrstuvwxyz";
+  const numbersPool = "0123456789";
+  const symbolsPool = "$*.-[];:?@+%!{},=()#&/_~";
+
+  const uppercaseCheck = document.querySelector("#uppercase-check");
+  const lowercaseCheck = document.querySelector("#lowercase-check");
+  const numbersCheck = document.querySelector("#numbers-check");
+  const symbolsCheck = document.querySelector("#symbols-check");
+
+  const inclusionPools = [];
 
   if (uppercaseCheck.checked) {
     inclusionPools.push(uppercasePool);
@@ -76,10 +90,22 @@ function validateInputRenderError() {
   const inclusionPools = getInclusionPools();
   let generateGreenLight = false;
 
-  if (inclusionPools.length === 0 || lengthValue < inclusionPools.length) {
+  if (inclusionPools.length === 0) {
     generateBtn.classList.add("error-state");
     numberEl.classList.add("number-error");
-    errorMsg.textContent = "Temporary placeholder error text";
+    checkboxInputs.forEach((element) =>
+      element.classList.add("checkbox-error"),
+    );
+    errorMsg.textContent = "At least one of the checkboxes must be selected";
+  } else if (lengthValue === 0) {
+    generateBtn.classList.add("error-state");
+    numberEl.classList.add("number-error");
+    errorMsg.textContent = "Length-value must be more than 0";
+  } else if (lengthValue < inclusionPools.length) {
+    generateBtn.classList.add("error-state");
+    numberEl.classList.add("number-error");
+    errorMsg.textContent =
+      "Length-value can't be less than number of checkboxes selected";
   } else {
     generateBtn.classList.remove("error-state");
     numberEl.classList.remove("number-error");
@@ -112,6 +138,14 @@ function generatePassword() {
 
   passwordOutput.textContent = finalPassword;
   passwordOutput.classList.add("final-password");
+
+  copyBtn.removeAttribute("disabled");
+  copyBtn.classList.remove("disabled");
+  copySvg.classList.remove("disabled");
+
+  const strengthResult = evaluateStrength(lengthValue, inclusionPools);
+
+  renderStrength(strengthResult);
 }
 
 function shufflePassword(array) {
@@ -120,6 +154,85 @@ function shufflePassword(array) {
     [array[i], array[ri]] = [array[ri], array[i]];
   }
   return array;
+}
+
+function evaluateStrength(lengthValue, inclusionPools) {
+  let score = 0;
+  const selectedCount = inclusionPools.length;
+
+  if (lengthValue > 0 && lengthValue < 6) {
+    score += 0;
+  } else if (lengthValue > 5 && lengthValue < 10) {
+    score += 1;
+  } else if (lengthValue > 9 && lengthValue < 14) {
+    score += 2;
+  } else if (lengthValue >= 14) {
+    score += 3;
+  }
+
+  if (selectedCount === 1) {
+    score += 0;
+  } else if (selectedCount === 2) {
+    score += 1;
+  } else if (selectedCount === 3) {
+    score += 2;
+  } else if (selectedCount === 4) {
+    score += 3;
+  }
+
+  if (score < 2) {
+    return {
+      strengthLabel: "TOO WEAK!",
+      filledMarkers: 1,
+      className: "too-weak",
+    };
+  } else if (score < 4) {
+    return {
+      strengthLabel: "WEAK",
+      filledMarkers: 2,
+      className: "weak",
+    };
+  } else if (score < 6) {
+    return {
+      strengthLabel: "MEDIUM",
+      filledMarkers: 3,
+      className: "medium",
+    };
+  } else {
+    return {
+      strengthLabel: "STRONG",
+      filledMarkers: 4,
+      className: "strong",
+    };
+  }
+}
+
+function renderStrength(strengthResult) {
+  const markersArray = Array.from(markers);
+
+  strengthMsg.textContent = "";
+  markers.forEach((element) => {
+    element.classList.remove("too-weak");
+    element.classList.remove("weak");
+    element.classList.remove("medium");
+    element.classList.remove("strong");
+  });
+
+  if (!strengthResult) {
+    return;
+  } else {
+    strengthMsg.textContent = strengthResult.strengthLabel;
+    markersArray.slice(0, strengthResult.filledMarkers).forEach((element) => {
+      element.classList.add(strengthResult.className);
+    });
+  }
+}
+
+function copyPassword() {
+  if (!passwordOutput.classList.contains("final-password")) {
+    return;
+  } else {
+  }
 }
 
 renderSliderState();
