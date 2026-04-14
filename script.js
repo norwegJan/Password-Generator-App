@@ -1,7 +1,6 @@
 // DECLARE VARIABLES
 const passwordOutput = document.querySelector("#password-output");
 const copyBtn = document.querySelector("#copy-btn");
-const copySvg = document.querySelector("#copy-svg");
 const copiedMsg = document.querySelector("#copied");
 
 const sliderInput = document.querySelector("#slider-input");
@@ -18,18 +17,13 @@ const errorMsg = document.querySelector("#error-msg");
 // ADD EVENT LISTENERS
 
 copyBtn.addEventListener("click", (e) => {
-  copiedMsg.textContent = "COPIED";
+  copyPassword();
 });
 
 sliderInput.addEventListener("input", renderSliderState);
 
 checkboxInputs.forEach((element) => {
-  element.addEventListener("change", (e) => {
-    numberEl.classList.remove("number-error");
-    checkboxInputs.forEach((el) => {
-      el.classList.remove("checkbox-error");
-    });
-  });
+  element.addEventListener("change", (e) => resetUI());
 });
 
 generateBtn.addEventListener("click", (e) => {
@@ -53,7 +47,7 @@ function renderSliderState() {
   sliderInput.style.setProperty("--progress", `${progress}%`);
 
   if (lengthValue >= inclusionPools.length) {
-    numberEl.classList.remove("number-error");
+    resetUI();
   }
 }
 
@@ -138,13 +132,9 @@ function generatePassword() {
 
   passwordOutput.textContent = finalPassword;
   passwordOutput.classList.add("final-password");
-
-  copyBtn.removeAttribute("disabled");
-  copyBtn.classList.remove("disabled");
-  copySvg.classList.remove("disabled");
+  copyBtn.disabled = false;
 
   const strengthResult = evaluateStrength(lengthValue, inclusionPools);
-
   renderStrength(strengthResult);
 }
 
@@ -228,11 +218,42 @@ function renderStrength(strengthResult) {
   }
 }
 
-function copyPassword() {
+async function copyPassword() {
+  const currentPassword = passwordOutput.textContent;
+
   if (!passwordOutput.classList.contains("final-password")) {
     return;
   } else {
+    try {
+      await navigator.clipboard.writeText(currentPassword);
+      copiedMsg.textContent = "COPIED";
+    } catch (err) {
+      copiedMsg.textContent = "ERROR";
+      copiedMsg.classList.add("copy-error");
+    }
   }
+}
+
+function resetUI() {
+  copiedMsg.textContent = "";
+  copyBtn.disabled = true;
+  passwordOutput.textContent = "P4$5W0rD!";
+  passwordOutput.classList.remove("final-password");
+  strengthMsg.textContent = "";
+  markers.forEach((element) => {
+    element.classList.remove("too-weak");
+    element.classList.remove("weak");
+    element.classList.remove("medium");
+    element.classList.remove("strong");
+  });
+
+  errorMsg.textContent = "";
+  generateBtn.classList.remove("error-state");
+  numberEl.classList.remove("number-error");
+  copiedMsg.classList.remove("copy-error");
+  checkboxInputs.forEach((el) => {
+    el.classList.remove("checkbox-error");
+  });
 }
 
 renderSliderState();

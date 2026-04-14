@@ -167,6 +167,18 @@ body {
   color: var(--green-200);
 }
 
+.copy-btn:disabled {
+  cursor: default;
+}
+
+.copy-btn:disabled .copy-svg {
+  fill: var(--grey-700);
+}
+
+.copy-btn:disabled:hover .copy-svg {
+  fill: var(--grey-700);
+}
+
 .copy-svg {
   fill: var(--green-200);
 }
@@ -175,25 +187,13 @@ body {
   fill: white;
 }
 
-.disabled {
-  cursor: default;
-  fill: var(--grey-700);
-}
-
-.disabled:hover {
-  fill: var(--grey-700);
-}
-
-.disabled:hover .copy-svg {
-  fill: var(--grey-700);
-}
-
 .number-length {
   font-size: 1.5rem;
   color: var(--green-200);
 }
 
-.number-error {
+.number-error,
+.copy-error {
   color: var(--red-500);
 }
 
@@ -254,11 +254,6 @@ input[type="range"]:active::-moz-range-thumb {
   background: var(--grey-850);
   border: 2px solid var(--green-200);
 }
-
-/* input[type="range"]::-moz-range-progress {
-  background: var(--green-200);
-  height: var(--spacing-100);
-} */
 
 /* END OF RANGE SLIDER STYLING */
 
