@@ -94,12 +94,12 @@ function validateInputRenderError() {
   } else if (lengthValue === 0) {
     generateBtn.classList.add("error-state");
     numberEl.classList.add("number-error");
-    errorMsg.textContent = "Length-value must be more than 0";
+    errorMsg.textContent = "Length value must be more than 0";
   } else if (lengthValue < inclusionPools.length) {
     generateBtn.classList.add("error-state");
     numberEl.classList.add("number-error");
     errorMsg.textContent =
-      "Length-value can't be less than number of checkboxes selected";
+      "Length value can't be less than selected checkboxes";
   } else {
     generateBtn.classList.remove("error-state");
     numberEl.classList.remove("number-error");
@@ -133,6 +133,7 @@ function generatePassword() {
   passwordOutput.textContent = finalPassword;
   passwordOutput.classList.add("final-password");
   copyBtn.disabled = false;
+  copiedMsg.textContent = "";
 
   const strengthResult = evaluateStrength(lengthValue, inclusionPools);
   renderStrength(strengthResult);
@@ -227,6 +228,7 @@ async function copyPassword() {
     try {
       await navigator.clipboard.writeText(currentPassword);
       copiedMsg.textContent = "COPIED";
+      copiedMsg.classList.remove("copy-error");
     } catch (err) {
       copiedMsg.textContent = "ERROR";
       copiedMsg.classList.add("copy-error");
