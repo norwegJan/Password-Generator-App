@@ -14,6 +14,11 @@ const markers = document.querySelectorAll(".marker");
 const generateBtn = document.querySelector("#generate-btn");
 const errorMsg = document.querySelector("#error-msg");
 
+const uppercasePool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const lowercasePool = "abcdefghijklmnopqrstuvwxyz";
+const numbersPool = "0123456789";
+const symbolsPool = "$*.-[];:?@+%!{},=()#&/_~";
+
 // ADD EVENT LISTENERS
 
 copyBtn.addEventListener("click", (e) => {
@@ -52,11 +57,6 @@ function renderSliderState() {
 }
 
 function getInclusionPools() {
-  const uppercasePool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const lowercasePool = "abcdefghijklmnopqrstuvwxyz";
-  const numbersPool = "0123456789";
-  const symbolsPool = "$*.-[];:?@+%!{},=()#&/_~";
-
   const uppercaseCheck = document.querySelector("#uppercase-check");
   const lowercaseCheck = document.querySelector("#lowercase-check");
   const numbersCheck = document.querySelector("#numbers-check");
